@@ -72,7 +72,7 @@ func checkErr(err error) {
 }
 
 func main() {
-    url := "https://alpha.wallhaven.cc/search?categories=111&purity=110&sorting=random&order=desc"
+    url := "https://alpha.wallhaven.cc/search?categories=101&purity=110&sorting=random&order=desc"
 
     // Database init
     db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/wallswap")
