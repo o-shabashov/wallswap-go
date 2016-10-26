@@ -6,6 +6,7 @@ import (
     "net/http"
     "database/sql"
     _ "github.com/go-sql-driver/mysql"
+    "github.com/o-shabashov/wallswap-go/wallswap"
 )
 
 // Helper function to pull the id attribute from a Token
@@ -65,26 +66,17 @@ func crawl(url string, ch chan string, chFinished chan bool) {
     }
 }
 
-func checkErr(err error) {
-    if err != nil {
-        panic(err)
-    }
-}
-
 func main() {
     url := "https://alpha.wallhaven.cc/search?categories=101&purity=110&sorting=random&order=desc"
 
     // Database init
-    db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/wallswap")
-    if err != nil {
-        panic(err.Error())
-    }
+    db := wallswap.GetDBConnection()
     defer db.Close()
 
     // Truncate and prepare table
     db.Query("truncate wallpaper")
     stmt, err := db.Prepare("INSERT wallpaper SET thumb_url=?,url=?")
-    checkErr(err)
+    wallswap.CheckErr(err)
 
     // Channels
     chIds := make(chan string)
@@ -102,7 +94,7 @@ func main() {
             stmt.Exec(
                 "https://alpha.wallhaven.cc/wallpapers/thumb/small/th-" + id + ".jpg",
                 "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg")
-            checkErr(err)
+            wallswap.CheckErr(err)
 
         case <-chFinished:
             isFinished = true
