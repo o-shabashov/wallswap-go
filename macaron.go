@@ -12,6 +12,9 @@ import (
 func main() {
     m := macaron.Classic()
     m.Use(session.Sessioner())
+    m.Use(macaron.Renderer())
+    m.Use(macaron.Recovery())
+    m.Use(macaron.Static("assets"))
 
     m.Use(wallswap.OAuthProvider(
         &goauth2.Config{
@@ -22,16 +25,15 @@ func main() {
     ))
 
     // Tokens are injected to the handlers
-    m.Get("/", func(tokens oauth2.Tokens) string {
-
-        if tokens.Expired() {
-            return "not logged in, or the access token is expired"
-        } else {
-            user := wallswap.AuthUser(tokens)
-            return user.DropboxId
+    m.Get("/", func(tokens oauth2.Tokens, ctx *macaron.Context) {
+        if !tokens.Expired() {
+            wallswap.AuthUser(tokens)
         }
 
-        return tokens.Access()
+        ctx.Data["wallpapers"] = wallswap.GetWallpapers()
+        ctx.Data["isGuest"] = tokens.Expired()
+        ctx.HTML(200, "index")
+
     })
 
     m.Run(8081)

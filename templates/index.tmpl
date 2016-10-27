@@ -26,41 +26,40 @@
   <meta name="twitter:creator" content="Oleg Shabashov">
   <meta name="twitter:title" content="Wallswap">
   <meta name="twitter:description" content="The best wallpapers delivered to your cloud based on your preferences">
-  <meta name="twitter:image:src" content="/assets/images/ico/favicon-128.png">
+  <meta name="twitter:image:src" content="/images/ico/favicon-128.png">
 
   <!-- Social: Facebook / Open Graph -->
   <meta property="og:url" content="/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Wallswap">
-  <meta property="og:image" content="/assets/images/ico/wallswap-logo-dark.png"/>
+  <meta property="og:image" content="/images/ico/wallswap-logo-dark.png"/>
   <meta property="og:description" content="The best wallpapers delivered to your cloud based on your preferences">
   <meta property="og:site_name" content="Wallswap.us">
   <meta property="article:author" content="https://www.facebook.com/wallswap">
   <meta property="article:publisher" content="https://www.facebook.com/wallswap">
 
   <!-- Fav icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/ico/apple-touch-icon-57x57.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/ico/apple-touch-icon-114x114.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/ico/apple-touch-icon-72x72.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/ico/apple-touch-icon-144x144.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/ico/apple-touch-icon-60x60.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/ico/apple-touch-icon-120x120.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/ico/apple-touch-icon-76x76.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="152x152"
-        href="/assets/images/ico/apple-touch-icon-152x152.png, true"/>
-  <link rel="icon" type="image/png" href="/assets/images/ico/favicon-196x196.png" sizes="196x196"/>
-  <link rel="icon" type="image/png" href="/assets/images/ico/favicon-96x96.png" sizes="96x96"/>
-  <link rel="icon" type="image/png" href="/assets/images/ico/favicon-32x32.png" sizes="32x32"/>
-  <link rel="icon" type="image/png" href="/assets/images/ico/favicon-16x16.png" sizes="16x16"/>
-  <link rel="icon" type="image/png" href="/assets/images/ico/favicon-128.png" sizes="128x128"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/ico/apple-touch-icon-57x57.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114x114.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/images/ico/apple-touch-icon-60x60.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/ico/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/images/ico/apple-touch-icon-76x76.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/ico/apple-touch-icon-152x152.png, true"/>
+  <link rel="icon" type="image/png" href="/images/ico/favicon-196x196.png" sizes="196x196"/>
+  <link rel="icon" type="image/png" href="/images/ico/favicon-96x96.png" sizes="96x96"/>
+  <link rel="icon" type="image/png" href="/images/ico/favicon-32x32.png" sizes="32x32"/>
+  <link rel="icon" type="image/png" href="/images/ico/favicon-16x16.png" sizes="16x16"/>
+  <link rel="icon" type="image/png" href="/images/ico/favicon-128.png" sizes="128x128"/>
 
   <meta name="application-name" content="&nbsp;"/>
   <meta name="msapplication-TileColor" content="#FFFFFF"/>
-  <meta name="msapplication-TileImage" content="/assets/images/ico/mstile-144x144.png"/>
-  <meta name="msapplication-square70x70logo" content="/assets/images/ico/mstile-70x70.png"/>
-  <meta name="msapplication-square150x150logo" content="/assets/images/ico/mstile-150x150.png"/>
-  <meta name="msapplication-wide310x150logo" content="/assets/images/ico/mstile-310x150.png"/>
-  <meta name="msapplication-square310x310logo" content="/assets/images/ico/mstile-310x310.png"/>
+  <meta name="msapplication-TileImage" content="/images/ico/mstile-144x144.png"/>
+  <meta name="msapplication-square70x70logo" content="/images/ico/mstile-70x70.png"/>
+  <meta name="msapplication-square150x150logo" content="/images/ico/mstile-150x150.png"/>
+  <meta name="msapplication-wide310x150logo" content="/images/ico/mstile-310x150.png"/>
+  <meta name="msapplication-square310x310logo" content="/images/ico/mstile-310x310.png"/>
 
   <title>Go.Wallswap</title>
 
@@ -72,7 +71,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body data-spy="scroll" data-offset="80">
@@ -93,9 +92,11 @@
 </section>
 
 <div align="center">
-  <a href="#">
-    <img src="assets/images/wallswap-02.png" alt="" width="250">
+{{ if .isGuest }}
+  <a href="/login">
+    <img src="/images/wallswap-02.png" alt="" width="250">
   </a>
+{{ end }}
 </div>
 
 <div class="non-ajax-list-view">
@@ -147,6 +148,6 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="/assets/js/custom.js"></script>
+<script type="text/javascript" src="/js/custom.js"></script>
 </body>
 </html>

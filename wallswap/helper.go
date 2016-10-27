@@ -27,3 +27,30 @@ func GetDBConnection() (*sql.DB) {
     CheckErr(err)
     return db
 }
+
+func GetWallpapers() (wallpapers map[string]string) {
+    wallpapers = make(map[string]string)
+
+    var (
+        thumbUrl string
+        url string
+    )
+
+    db := GetDBConnection()
+    defer db.Close()
+
+    rows, err := db.Query("select thumb_url, url from wallpaper")
+    CheckErr(err)
+
+    defer rows.Close()
+
+    for rows.Next() {
+        err := rows.Scan(&thumbUrl, &url)
+        CheckErr(err)
+        wallpapers[thumbUrl] = url
+    }
+    err = rows.Err()
+    CheckErr(err)
+
+    return
+}
