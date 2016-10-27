@@ -4,22 +4,9 @@ import (
     "fmt"
     "golang.org/x/net/html"
     "net/http"
-    "database/sql"
     _ "github.com/go-sql-driver/mysql"
     "github.com/o-shabashov/wallswap-go/wallswap"
 )
-
-// Helper function to pull the id attribute from a Token
-func getId(t html.Token) (ok bool, id string) {
-    // Iterate over all of the Token's attributes until we find an "id"
-    for _, attr := range t.Attr {
-        if attr.Key == "data-wallpaper-id" {
-            id = attr.Val
-            ok = true
-        }
-    }
-    return
-}
 
 // Extract all http** links from a given webpage
 func crawl(url string, ch chan string, chFinished chan bool) {
@@ -57,7 +44,7 @@ func crawl(url string, ch chan string, chFinished chan bool) {
             }
 
             // Extract the href value, if there is one
-            ok, id := getId(t)
+            ok, id := wallswap.GetId(t)
             if !ok {
                 continue
             }

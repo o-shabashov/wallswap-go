@@ -3,6 +3,7 @@ package wallswap
 import (
     "math/rand"
     "database/sql"
+    "golang.org/x/net/html"
 )
 
 /* @see http://stackoverflow.com/questions/22892120/how-to-generate-a-random-string-of-a-fixed-length-in-golang */
@@ -52,5 +53,18 @@ func GetWallpapers() (wallpapers map[string]string) {
     err = rows.Err()
     CheckErr(err)
 
+    return
+}
+
+
+// Helper function to pull the id attribute from a Token
+func GetId(t html.Token) (ok bool, id string) {
+    // Iterate over all of the Token's attributes until we find an "id"
+    for _, attr := range t.Attr {
+        if attr.Key == "data-wallpaper-id" {
+            id = attr.Val
+            ok = true
+        }
+    }
     return
 }
