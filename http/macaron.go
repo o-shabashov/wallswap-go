@@ -6,6 +6,7 @@ import (
     goauth2 "golang.org/x/oauth2"
     "github.com/go-macaron/session"
     "github.com/o-shabashov/wallswap-go/wallswap"
+    "os"
 )
 
 func main() {
@@ -14,8 +15,8 @@ func main() {
 
     m.Use(wallswap.OAuthProvider(
         &goauth2.Config{
-            ClientID:     "",
-            ClientSecret: "",
+            ClientID:     os.Getenv("DROPBOX_CLIENT_ID"),
+            ClientSecret: os.Getenv("DROPBOX_CLIENT_SECRET"),
             RedirectURL:  "http://localhost:8081/oauth2callback",
         },
     ))
