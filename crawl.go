@@ -8,8 +8,32 @@ import (
     "github.com/o-shabashov/wallswap-go/wallswap"
 )
 
-// Extract all http** links from a given webpage
-func crawl(url string, ch chan string, chFinished chan bool) {
+// Should be run once a week
+func main() {
+    wallpapers := storeWallpaperURLs()
+
+    var accessToken string
+
+    db := wallswap.GetDBConnection()
+    defer db.Close()
+
+    rows, err := db.Query("select access_token from user")
+    wallswap.CheckErr(err)
+
+    defer rows.Close()
+
+    for rows.Next() {
+        err := rows.Scan(&accessToken)
+        wallswap.CheckErr(err)
+        wallswap.DeleteFiles(accessToken)
+        wallswap.UploadFiles(accessToken, wallpapers)
+    }
+    err = rows.Err()
+    wallswap.CheckErr(err)
+}
+
+// Extract all figure.id's from a given webpage
+func crawlWallpapers(url string, ch chan string, chFinished chan bool) {
     resp, err := http.Get(url)
 
     defer func() {
@@ -18,14 +42,14 @@ func crawl(url string, ch chan string, chFinished chan bool) {
     }()
 
     if err != nil {
-        fmt.Println("ERROR: Failed to crawl \"" + url + "\"")
+        fmt.Println("ERROR: Failed to crawl " + url)
         return
     }
 
-    b := resp.Body
-    defer b.Close() // close Body when the function returns
+    body := resp.Body
+    defer body.Close() // close Body when the function returns
 
-    z := html.NewTokenizer(b)
+    z := html.NewTokenizer(body)
 
     for {
         tt := z.Next()
@@ -37,14 +61,14 @@ func crawl(url string, ch chan string, chFinished chan bool) {
         case tt == html.StartTagToken:
             t := z.Token()
 
-            // Check if the token is an <img> tag
+            // Check if the token is an <figure> tag
             isImg := t.Data == "figure"
             if !isImg {
                 continue
             }
 
-            // Extract the href value, if there is one
-            ok, id := wallswap.GetId(t)
+            // Extract the id value, if there is one
+            id, ok := wallswap.GetId(t)
             if !ok {
                 continue
             }
@@ -53,8 +77,11 @@ func crawl(url string, ch chan string, chFinished chan bool) {
     }
 }
 
-func main() {
+// Parse wallheaven for wallpaper urls and store to MySQL
+func storeWallpaperURLs() map[string]string {
     url := "https://alpha.wallhaven.cc/search?categories=101&purity=110&sorting=random&order=desc"
+
+    wallpapers := make(map[string]string)
 
     // Database init
     db := wallswap.GetDBConnection()
@@ -70,17 +97,19 @@ func main() {
     chFinished := make(chan bool)
 
     // Kick off the crawl process (concurrently)
-    go crawl(url, chIds, chFinished)
+    go crawlWallpapers(url, chIds, chFinished)
 
     // Subscribe to both channels
     isFinished := false
     for isFinished == false {
         select {
         case id := <-chIds:
-            fmt.Println(" - " + id)
-            stmt.Exec(
-                "https://alpha.wallhaven.cc/wallpapers/thumb/small/th-" + id + ".jpg",
-                "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg")
+            thumbUrl := "https://alpha.wallhaven.cc/wallpapers/thumb/small/th-" + id + ".jpg"
+            fullUrl := "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg"
+
+            stmt.Exec(thumbUrl, fullUrl)
+
+            wallpapers[thumbUrl] = fullUrl
             wallswap.CheckErr(err)
 
         case <-chFinished:
@@ -88,4 +117,6 @@ func main() {
         }
     }
     close(chIds)
+
+    return wallpapers
 }
