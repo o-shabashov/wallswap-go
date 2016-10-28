@@ -58,7 +58,7 @@ func GetWallpapers() (wallpapers map[string]string) {
 
 
 // Helper function to pull the id attribute from a Token
-func GetId(t html.Token) (ok bool, id string) {
+func GetId(t html.Token) (id string, ok bool) {
     // Iterate over all of the Token's attributes until we find an "id"
     for _, attr := range t.Attr {
         if attr.Key == "data-wallpaper-id" {
