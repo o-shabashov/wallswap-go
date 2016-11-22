@@ -1,0 +1,12 @@
+package: github.com/o-shabashov/wallswap-go
+import:
+- package: github.com/go-macaron/oauth2
+- package: github.com/go-macaron/session
+- package: github.com/go-sql-driver/mysql
+  version: ^1.2.0
+- package: golang.org/x/net
+  subpackages:
+  - html
+- package: golang.org/x/oauth2
+- package: gopkg.in/macaron.v1
+  version: ^1.1.8
