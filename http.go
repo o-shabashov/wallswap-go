@@ -20,7 +20,7 @@ func main() {
         &goauth2.Config{
             ClientID:     os.Getenv("DROPBOX_CLIENT_ID"),
             ClientSecret: os.Getenv("DROPBOX_CLIENT_SECRET"),
-            RedirectURL:  "http://localhost:8081/oauth2callback",
+            RedirectURL:  "http://localhost:8080/oauth2callback",
         },
     ))
 
@@ -36,5 +36,5 @@ func main() {
 
     })
 
-    m.Run(8081)
+    m.Run(8080)
 }
