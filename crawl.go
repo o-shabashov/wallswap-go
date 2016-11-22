@@ -79,7 +79,7 @@ func crawlWallpapers(url string, ch chan string, chFinished chan bool) {
 
 // Parse wallheaven for wallpaper urls and store to MySQL
 func storeWallpaperURLs() map[string]string {
-    url := "https://alpha.wallhaven.cc/search?categories=101&purity=110&sorting=random&order=desc"
+    url := "https://alpha.wallhaven.cc/search?categories=101&purity=100&sorting=random&order=desc"
 
     wallpapers := make(map[string]string)
 
