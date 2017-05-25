@@ -5,7 +5,7 @@ import (
     "golang.org/x/net/html"
     "net/http"
     _ "github.com/go-sql-driver/mysql"
-    "github.com/o-shabashov/wallswap-go/wallswap"
+    "wallswap-go/wallswap"
 )
 
 // Should be run once a week

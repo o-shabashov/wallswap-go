@@ -5,7 +5,7 @@ import (
     "github.com/go-macaron/oauth2"
     goauth2 "golang.org/x/oauth2"
     "github.com/go-macaron/session"
-    "github.com/o-shabashov/wallswap-go/wallswap"
+    "wallswap-go/wallswap"
     "os"
 )
 

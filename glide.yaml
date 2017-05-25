@@ -1,4 +1,4 @@
-package: github.com/o-shabashov/wallswap-go
+package: o-shabashov/wallswap-go
 import:
 - package: github.com/go-macaron/oauth2
 - package: github.com/go-macaron/session
