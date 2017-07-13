@@ -1,5 +1,7 @@
 # Wallswap-Go
 
+[![BCH compliance](https://bettercodehub.com/edge/badge/o-shabashov/wallswap-go?branch=master)](https://bettercodehub.com/)
+
 The project is just for fun and test programming skills. It consists of two parts - the server and crawler.
 
 ### Server:
